@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Stage 2 — Same/Different Speed Task</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    :root{
+      --bg:#f8fafc; --ink:#0f172a; --muted:#64748b; --card:#fff; --accent:#2563eb;
+      --ring:#e5e7eb; --shadow:0 8px 30px rgba(2,6,23,.06);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .wrap{max-width:900px;margin:40px auto;padding:0 20px}
+    .card{background:#fff;border:1px solid var(--ring);border-radius:16px;
+      padding:24px;box-shadow:var(--shadow)}
+    h1{margin:0 0 8px}
+    h3{margin:18px 0 8px}
+    .muted{color:var(--muted)}
+    ul{margin:8px 0 0 18px}
+    li{margin:6px 0}
+    .legend{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    .pill{border:1px solid #e2e8f0;border-radius:999px;padding:6px 10px;background:#f8fafc}
+    .kbd{display:inline-block;border:1px solid #d1d5db;border-bottom-width:2px;
+      border-radius:8px;padding:2px 8px;background:#fff;box-shadow:0 1px 0 #e5e7eb;
+      font-weight:700}
+    .grid{display:grid;gap:14px;margin-top:10px}
+    @media (min-width:760px){ .grid{grid-template-columns:1fr 1fr;} }
+    .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
+    .push-right{margin-left:auto}
+    .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:10px;
+      padding:10px 12px;border:1px solid #dbeafe;background:#eff6ff;color:var(--accent);
+      transition:all .15s;cursor:pointer}
+    .btn:hover{background:var(--accent);color:#fff}
+
+    .face-frame{
+      background:#f1f5f9; border:1px solid #e5e7eb; border-radius:12px;
+      height:240px; position:relative; overflow:hidden;
+    }
+    .face-frame > img{
+      position:absolute; inset:0; max-width:100%; max-height:100%; margin:auto;
+      object-fit:contain; border-radius:12px; display:block;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Stage 2 — Same/Different Speed Task</h1>
+      <p class="muted">
+        You will judge whether two faces have the <strong>same expression</strong> or
+        <strong>different expressions</strong>. Respond <em>as quickly and accurately as possible</em>.
+        The task is timed.
+      </p>
+
+      <h3>Your goal</h3>
+      <ul>
+        <li>Two faces appear side by side (Left / Right).</li>
+        <li>Decide if their expressions are <strong>same</strong> or <strong>different</strong>.</li>
+        <li>Respond quickly—your <strong>reaction time (RT)</strong> is recorded.</li>
+        <li>You cannot go back and only have one chance to finish.</li>
+        <li>Trials advance automatically.</li>
+      </ul>
+
+      <h3>Keys / Responses</h3>
+      <div class="legend">
+        <span class="pill"><span class="kbd">Y</span> = Yes (Same)</span>
+        <span class="pill"><span class="kbd">N</span> = No (Different)</span>
+        <span class="pill"><span class="kbd">Space</span> = Start / Continue</span>
+      </div>
+
+      <h3>What you will see</h3>
+      <div class="grid">
+        <div>
+          <div class="face-frame">
+            <img src="{{ url_for('static', filename='images/stage2_left.png') }}" alt="Left face">
+          </div>
+          <p class="muted" style="margin:8px 0 0">One face on the left.</p>
+        </div>
+
+        <div>
+          <div class="face-frame">
+            <img src="{{ url_for('static', filename='images/stage2_right.png') }}" alt="Right face">
+          </div>
+          <p class="muted" style="margin:8px 0 0">Another face on the right.</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="{{ url_for('paq_index') }}">Back to Index</a>
+
+        <!-- Start Stage-2 Trials -->
+        <a id="continueBtn" class="btn push-right" href="{{ url_for('stage2_start', session=session_id) }}">Continue</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Press Space to Continue
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        document.getElementById('continueBtn').click();
+      }
+    });
+  </script>
+</body>
+</html>

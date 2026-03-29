@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Difficulty Check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --card: #ffffff;
+      --accent: #2563eb;
+      --ring: #e5e7eb;
+      --shadow: 0 8px 30px rgba(15,23,42,0.08);
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e5f0ff, #f8fafc 45%);
+      color: var(--ink);
+    }
+    .container {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 24px;
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--ring);
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    .identity-tag {
+      display: inline-block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: #eef2ff;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 8px;
+    }
+    .block-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: #f1f5f9;
+      border-radius: 999px;
+      padding: 3px 8px;
+      margin-left: 6px;
+    }
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    form {
+      margin-top: 16px;
+    }
+    .options {
+      margin: 12px 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.98rem;
+    }
+    .options input[type="radio"] {
+      accent-color: var(--accent);
+    }
+    .comments {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .comments label {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--ring);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+    textarea:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    button[type="submit"] {
+      margin-top: 18px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.98rem;
+      font-weight: 500;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover {
+      filter: brightness(1.05);
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="identity-tag">
+      Identity: <strong>{{ identity }}</strong>
+      {% if block_label %}
+      <span class="block-tag">{{ block_label }}</span>
+      {% endif %}
+    </div>
+    <h1>Difficulty of the last four comparisons</h1>
+    <p>
+      Do you consider previous 4 comparison questions have the same difficulty?
+    </p>
+
+    <form method="post" action="{{ submit_url }}">
+      <input type="hidden" name="session_id" value="{{ session_id }}">
+      <input type="hidden" name="identity" value="{{ identity }}">
+      <input type="hidden" name="next_i" value="{{ next_i }}">
+
+      <div class="options">
+        <label>
+          <input type="radio" name="difficulty" value="equal" required>
+          Equally difficult
+        </label>
+        <label>
+          <input type="radio" name="difficulty" value="not_equal">
+          Not equally difficult
+        </label>
+      </div>
+
+      <div class="comments">
+        <label for="comments">
+          Additional comments on the difficulty of these four comparisons (optional):
+        </label>
+        <textarea id="comments" name="comments"
+                  placeholder="For example: which comparisons felt easier or harder, why, etc."></textarea>
+      </div>
+
+      <button type="submit">Continue</button>
+    </form>
+  </main>
+</body>
+</html>

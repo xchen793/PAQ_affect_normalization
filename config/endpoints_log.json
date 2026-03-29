@@ -1,0 +1,741 @@
+[
+  {
+    "level": "INFO",
+    "message": "Scanning IMAGES_ROOT = C:\\Users\\xuanz\\OneDrive\\Desktop\\face_gen\\face_video\\UI_paq_face\\paq-demo\\static\\images",
+    "images_root": "C:\\Users\\xuanz\\OneDrive\\Desktop\\face_gen\\face_video\\UI_paq_face\\paq-demo\\static\\images"
+  },
+  {
+    "level": "INFO",
+    "message": "Found 16 top-level folders.",
+    "count": 16,
+    "samples": [
+      "bf_happy",
+      "bf_sad",
+      "bm_happy",
+      "bm_sad",
+      "if_happy",
+      "if_sad",
+      "im_happy",
+      "im_sad",
+      "mf_happy",
+      "mf_sad"
+    ]
+  },
+  {
+    "level": "CHECK",
+    "message": "bf_happy: found 2 PNG(s) under static\\images\\bf_happy\\ref_face",
+    "category": "bf_happy",
+    "path": "static\\images\\bf_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "025.png",
+      "075.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bf_happy: idx 025 missing endpoint(s) 021, 030",
+    "category": "bf_happy",
+    "idx": "025",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021",
+      "030"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bf_happy: idx 075 missing endpoint(s) 071, 080",
+    "category": "bf_happy",
+    "idx": "075",
+    "interval": {
+      "lo": "071",
+      "hi": "080"
+    },
+    "missing": [
+      "071",
+      "080"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "bf_happy: 0 indices with valid endpoints",
+    "category": "bf_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "bf_sad: found 2 PNG(s) under static\\images\\bf_sad\\ref_face",
+    "category": "bf_sad",
+    "path": "static\\images\\bf_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "030.png",
+      "057.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bf_sad: idx 030 missing endpoint(s) 021",
+    "category": "bf_sad",
+    "idx": "030",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bf_sad: idx 057 missing endpoint(s) 051, 060",
+    "category": "bf_sad",
+    "idx": "057",
+    "interval": {
+      "lo": "051",
+      "hi": "060"
+    },
+    "missing": [
+      "051",
+      "060"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "bf_sad: 0 indices with valid endpoints",
+    "category": "bf_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "bm_happy: found 2 PNG(s) under static\\images\\bm_happy\\ref_face",
+    "category": "bm_happy",
+    "path": "static\\images\\bm_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "050.png",
+      "075.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bm_happy: idx 050 missing endpoint(s) 041",
+    "category": "bm_happy",
+    "idx": "050",
+    "interval": {
+      "lo": "041",
+      "hi": "050"
+    },
+    "missing": [
+      "041"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bm_happy: idx 075 missing endpoint(s) 071, 080",
+    "category": "bm_happy",
+    "idx": "075",
+    "interval": {
+      "lo": "071",
+      "hi": "080"
+    },
+    "missing": [
+      "071",
+      "080"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "bm_happy: 0 indices with valid endpoints",
+    "category": "bm_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "bm_sad: found 2 PNG(s) under static\\images\\bm_sad\\ref_face",
+    "category": "bm_sad",
+    "path": "static\\images\\bm_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "025.png",
+      "080.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bm_sad: idx 025 missing endpoint(s) 021, 030",
+    "category": "bm_sad",
+    "idx": "025",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021",
+      "030"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "bm_sad: idx 080 missing endpoint(s) 071",
+    "category": "bm_sad",
+    "idx": "080",
+    "interval": {
+      "lo": "071",
+      "hi": "080"
+    },
+    "missing": [
+      "071"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "bm_sad: 0 indices with valid endpoints",
+    "category": "bm_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "if_happy: found 2 PNG(s) under static\\images\\if_happy\\ref_face",
+    "category": "if_happy",
+    "path": "static\\images\\if_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "037.png",
+      "068.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "if_happy: idx 037 missing endpoint(s) 031, 040",
+    "category": "if_happy",
+    "idx": "037",
+    "interval": {
+      "lo": "031",
+      "hi": "040"
+    },
+    "missing": [
+      "031",
+      "040"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "if_happy: idx 068 missing endpoint(s) 061, 070",
+    "category": "if_happy",
+    "idx": "068",
+    "interval": {
+      "lo": "061",
+      "hi": "070"
+    },
+    "missing": [
+      "061",
+      "070"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "if_happy: 0 indices with valid endpoints",
+    "category": "if_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "if_sad: found 2 PNG(s) under static\\images\\if_sad\\ref_face",
+    "category": "if_sad",
+    "path": "static\\images\\if_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "050.png",
+      "088.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "if_sad: idx 050 missing endpoint(s) 041",
+    "category": "if_sad",
+    "idx": "050",
+    "interval": {
+      "lo": "041",
+      "hi": "050"
+    },
+    "missing": [
+      "041"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "if_sad: idx 088 missing endpoint(s) 081, 090",
+    "category": "if_sad",
+    "idx": "088",
+    "interval": {
+      "lo": "081",
+      "hi": "090"
+    },
+    "missing": [
+      "081",
+      "090"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "if_sad: 0 indices with valid endpoints",
+    "category": "if_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "im_happy: found 2 PNG(s) under static\\images\\im_happy\\ref_face",
+    "category": "im_happy",
+    "path": "static\\images\\im_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "075.png",
+      "091.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "im_happy: idx 075 missing endpoint(s) 071, 080",
+    "category": "im_happy",
+    "idx": "075",
+    "interval": {
+      "lo": "071",
+      "hi": "080"
+    },
+    "missing": [
+      "071",
+      "080"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "im_happy: idx 091 missing endpoint(s) 100",
+    "category": "im_happy",
+    "idx": "091",
+    "interval": {
+      "lo": "091",
+      "hi": "100"
+    },
+    "missing": [
+      "100"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "im_happy: 0 indices with valid endpoints",
+    "category": "im_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "im_sad: found 2 PNG(s) under static\\images\\im_sad\\ref_face",
+    "category": "im_sad",
+    "path": "static\\images\\im_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "030.png",
+      "055.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "im_sad: idx 030 missing endpoint(s) 021",
+    "category": "im_sad",
+    "idx": "030",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "im_sad: idx 055 missing endpoint(s) 051, 060",
+    "category": "im_sad",
+    "idx": "055",
+    "interval": {
+      "lo": "051",
+      "hi": "060"
+    },
+    "missing": [
+      "051",
+      "060"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "im_sad: 0 indices with valid endpoints",
+    "category": "im_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "mf_happy: found 2 PNG(s) under static\\images\\mf_happy\\ref_face",
+    "category": "mf_happy",
+    "path": "static\\images\\mf_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "025.png",
+      "062.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mf_happy: idx 025 missing endpoint(s) 021, 030",
+    "category": "mf_happy",
+    "idx": "025",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021",
+      "030"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mf_happy: idx 062 missing endpoint(s) 061, 070",
+    "category": "mf_happy",
+    "idx": "062",
+    "interval": {
+      "lo": "061",
+      "hi": "070"
+    },
+    "missing": [
+      "061",
+      "070"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "mf_happy: 0 indices with valid endpoints",
+    "category": "mf_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "mf_sad: found 2 PNG(s) under static\\images\\mf_sad\\ref_face",
+    "category": "mf_sad",
+    "path": "static\\images\\mf_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "016.png",
+      "062.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mf_sad: idx 016 missing endpoint(s) 011, 020",
+    "category": "mf_sad",
+    "idx": "016",
+    "interval": {
+      "lo": "011",
+      "hi": "020"
+    },
+    "missing": [
+      "011",
+      "020"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mf_sad: idx 062 missing endpoint(s) 061, 070",
+    "category": "mf_sad",
+    "idx": "062",
+    "interval": {
+      "lo": "061",
+      "hi": "070"
+    },
+    "missing": [
+      "061",
+      "070"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "mf_sad: 0 indices with valid endpoints",
+    "category": "mf_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "mm_happy: found 2 PNG(s) under static\\images\\mm_happy\\ref_face",
+    "category": "mm_happy",
+    "path": "static\\images\\mm_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "017.png",
+      "100.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mm_happy: idx 017 missing endpoint(s) 011, 020",
+    "category": "mm_happy",
+    "idx": "017",
+    "interval": {
+      "lo": "011",
+      "hi": "020"
+    },
+    "missing": [
+      "011",
+      "020"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mm_happy: idx 100 missing endpoint(s) 091",
+    "category": "mm_happy",
+    "idx": "100",
+    "interval": {
+      "lo": "091",
+      "hi": "100"
+    },
+    "missing": [
+      "091"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "mm_happy: 0 indices with valid endpoints",
+    "category": "mm_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "mm_sad: found 2 PNG(s) under static\\images\\mm_sad\\ref_face",
+    "category": "mm_sad",
+    "path": "static\\images\\mm_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "025.png",
+      "075.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mm_sad: idx 025 missing endpoint(s) 021, 030",
+    "category": "mm_sad",
+    "idx": "025",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021",
+      "030"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "mm_sad: idx 075 missing endpoint(s) 071, 080",
+    "category": "mm_sad",
+    "idx": "075",
+    "interval": {
+      "lo": "071",
+      "hi": "080"
+    },
+    "missing": [
+      "071",
+      "080"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "mm_sad: 0 indices with valid endpoints",
+    "category": "mm_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "wf_happy: found 2 PNG(s) under static\\images\\wf_happy\\ref_face",
+    "category": "wf_happy",
+    "path": "static\\images\\wf_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "014.png",
+      "068.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wf_happy: idx 014 missing endpoint(s) 011, 020",
+    "category": "wf_happy",
+    "idx": "014",
+    "interval": {
+      "lo": "011",
+      "hi": "020"
+    },
+    "missing": [
+      "011",
+      "020"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wf_happy: idx 068 missing endpoint(s) 061, 070",
+    "category": "wf_happy",
+    "idx": "068",
+    "interval": {
+      "lo": "061",
+      "hi": "070"
+    },
+    "missing": [
+      "061",
+      "070"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "wf_happy: 0 indices with valid endpoints",
+    "category": "wf_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "wf_sad: found 2 PNG(s) under static\\images\\wf_sad\\ref_face",
+    "category": "wf_sad",
+    "path": "static\\images\\wf_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "025.png",
+      "075.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wf_sad: idx 025 missing endpoint(s) 021, 030",
+    "category": "wf_sad",
+    "idx": "025",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021",
+      "030"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wf_sad: idx 075 missing endpoint(s) 071, 080",
+    "category": "wf_sad",
+    "idx": "075",
+    "interval": {
+      "lo": "071",
+      "hi": "080"
+    },
+    "missing": [
+      "071",
+      "080"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "wf_sad: 0 indices with valid endpoints",
+    "category": "wf_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "wm_happy: found 2 PNG(s) under static\\images\\wm_happy\\ref_face",
+    "category": "wm_happy",
+    "path": "static\\images\\wm_happy\\ref_face",
+    "count": 2,
+    "samples": [
+      "033.png",
+      "066.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wm_happy: idx 033 missing endpoint(s) 031, 040",
+    "category": "wm_happy",
+    "idx": "033",
+    "interval": {
+      "lo": "031",
+      "hi": "040"
+    },
+    "missing": [
+      "031",
+      "040"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wm_happy: idx 066 missing endpoint(s) 061, 070",
+    "category": "wm_happy",
+    "idx": "066",
+    "interval": {
+      "lo": "061",
+      "hi": "070"
+    },
+    "missing": [
+      "061",
+      "070"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "wm_happy: 0 indices with valid endpoints",
+    "category": "wm_happy",
+    "valid_count": 0
+  },
+  {
+    "level": "CHECK",
+    "message": "wm_sad: found 2 PNG(s) under static\\images\\wm_sad\\ref_face",
+    "category": "wm_sad",
+    "path": "static\\images\\wm_sad\\ref_face",
+    "count": 2,
+    "samples": [
+      "025.png",
+      "091.png"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wm_sad: idx 025 missing endpoint(s) 021, 030",
+    "category": "wm_sad",
+    "idx": "025",
+    "interval": {
+      "lo": "021",
+      "hi": "030"
+    },
+    "missing": [
+      "021",
+      "030"
+    ]
+  },
+  {
+    "level": "WARN",
+    "message": "wm_sad: idx 091 missing endpoint(s) 100",
+    "category": "wm_sad",
+    "idx": "091",
+    "interval": {
+      "lo": "091",
+      "hi": "100"
+    },
+    "missing": [
+      "100"
+    ]
+  },
+  {
+    "level": "OK",
+    "message": "wm_sad: 0 indices with valid endpoints",
+    "category": "wm_sad",
+    "valid_count": 0
+  },
+  {
+    "level": "DONE",
+    "message": "Wrote config\\endpoints.json (categories with endpoints: 0)",
+    "categories": 0
+  }
+]

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Face Morph Study — Introduction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --ink:#0f172a; --muted:#64748b; --bg:#f8fafc; --card:#ffffff; --accent:#2563eb; }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .wrap{max-width:880px;margin:48px auto;padding:0 20px}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 6px 30px rgba(2,6,23,.06);padding:32px}
+    h1{margin:0 0 12px;font-size:32px;letter-spacing:.2px}
+    p.lead{color:var(--muted);font-size:18px;margin-top:0}
+    .steps{display:flex;gap:8px;margin:24px 0 8px}
+    .dot{flex:1;height:6px;border-radius:999px;background:#e5e7eb;position:relative}
+    .dot.active{background:var(--accent)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600;font-size:12px}
+    .cta{display:flex;gap:12px;margin-top:22px}
+    a.button, button.button{appearance:none;border:0;background:var(--accent);color:white;padding:12px 18px;border-radius:12px;
+      font-weight:700;text-decoration:none;cursor:pointer}
+    .ghost{background:#e2e8f0;color:#0f172a}
+    ul{margin:0 0 0 18px}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    @media (max-width:800px){ .grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <span class="badge">Step 1 of 4</span>
+      <div class="steps">
+        <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <h1>Welcome to the Face Morph Perception Study</h1>
+      <p class="lead">You’ll be involved The study takes ~25 minutes.</p>
+
+      <div class="grid">
+        <section>
+          <h3>What you’ll do</h3>
+          <ul>
+            <li>Brief <strong>pre-test</strong> to check your display and controls and to make sure you understand the task.</li>
+            <li>In the first stage,  you have to complete a sequence of <strong>facial expression matching tasks</strong>.</li>
+            <li>In each matching task, mark your <strong>just noticeable difference (JND)</strong> points, i.e., the <strong>leftmost</strong> point on the slider having the same expression as the reference face.</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Tips</h3>
+          <ul>
+            <li>Use a laptop/desktop at 100% zoom.</li>
+            <li>Dim bright ambient light; sit ~50–70cm from the screen.</li>
+            <li>Keyboard: ←/→ to adjust, <kbd>Enter</kbd> to confirm (also clickable).</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="cta">
+        <a class="button ghost" href="#" onclick="document.getElementById('consent').showModal();return false;">View Consent</a>
+      </div>
+      <footer>Questions? Contact the study organizer.</footer>
+    </div>
+  </div>
+
+  <dialog id="consent" style="border:0;border-radius:16px;padding:0;width:min(720px,90vw)">
+    <div class="card" style="box-shadow:none;border-radius:16px">
+      <h2 style="margin-top:0">Consent</h2>
+      <p>This is a voluntary research study at Georgia Tech. We are studying how people perceive facial expressions, and how this perception may differ across individuals. 
+      In this task, you will view pairs of facial images and make pairwise comparison judgments (i.e., whether two expressions are the same or different), 
+      and you may also adjust facial expressions using a slider. There are no right or wrong answers—we are interested in your perception.</p>
+      <p>The study takes about 12 minutes to complete. First, you will answer some short demo questions to ensure you understand the task. 
+      Then you will proceed to the main task. When you finish, you will receive $2 as payment. </p>
+      <p>The risks are no greater than other tasks on Prolific, and you may not get any personal benefit. The study does not collect any identifiable information, 
+      except your anonymized Prolific ID for payment. Anonymous data may be made public to other researchers in future. </p>
+      <p>The Georgia Tech IRB and the Office of Human Research Protections may review study records. We will comply with any applicable laws and regulations regarding confidentiality. 
+      If you have questions, you can contact Ashwin Pananjady (ashwinpm@gatech.edu). If you have questions about your rights as a research subject, you can contact Georgia Tech IRB (IRB@gatech.edu).</p>
+      <p>Thank you for participating!</p>
+      <p>By clicking "I agree", you confirm that you’re at least 18 years old, live in the US, and wish to participate in this study.</p>
+      <div class="cta" style="justify-content:flex-end">
+        <button class="button ghost" onclick="this.closest('dialog').close()">Close</button>
+        <a class="button" href="{{ url_for('pretest') }}">I Agree</a>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

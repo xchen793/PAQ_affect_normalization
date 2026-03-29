@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Stage 2 — Task Introduction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    :root{
+      --bg:#f8fafc; --ink:#0f172a; --muted:#64748b; --card:#fff; --accent:#2563eb;
+      --ring:#e5e7eb; --shadow:0 8px 30px rgba(2,6,23,.06);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .wrap{max-width:900px;margin:40px auto;padding:0 20px}
+    .card{background:#fff;border:1px solid var(--ring);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+    h1{margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:10px;padding:10px 12px;border:1px solid #dbeafe;background:#eff6ff;color:var(--accent);transition:all .15s}
+    .btn:hover{background:var(--accent);color:#fff}
+    ul{margin:12px 0 0 18px}
+    li{margin:6px 0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Stage 1 — Task Introduction</h1>
+      <p class="muted">In this stage, you will complete a set of morphing-face questions. Please read the instructions carefully before proceeding.</p>
+
+      <h3>What you will do</h3>
+      <ul>
+        <li>Each question shows a <strong>reference face</strong> and a <strong>morphing sequence</strong>.</li>
+        <li>Use the slider to adjust the expression until it matches the instruction shown on the page.</li>
+        <li>Click <em>Confirm</em> to save your response; you can revisit any question if needed.</li>
+      </ul>
+
+      <h3>Tips</h3>
+      <ul>
+        <li>Move the slider slowly near your decision point to be precise.</li>
+        <li>If you make a mistake, you can readjust and confirm again.</li>
+        <li>Your progress is saved per question.</li>
+      </ul>
+
+      <div class="actions">
+        <a class="btn" href="{{ index_url }}">Back to Index</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

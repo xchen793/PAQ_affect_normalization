@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Face Morph Study — Task</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{--ink:#0f172a;--muted:#64748b;--bg:#f8fafc;--card:#fff;--accent:#2563eb}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .wrap{max-width:1040px;margin:40px auto;padding:0 20px}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 6px 30px rgba(2,6,23,.06);padding:20px}
+    .steps{display:flex;gap:8px;margin:0 0 8px}
+    .dot{flex:1;height:6px;border-radius:999px;background:#e5e7eb}
+    .dot:nth-child(-n+3){background:var(--accent)}
+    .layout{display:grid;grid-template-columns:260px 1fr 180px;gap:16px;align-items:start}
+    .panel{border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .title{display:flex;justify-content:space-between;align-items:center}
+    .title small{color:var(--muted)}
+    .viewer{display:grid;place-items:center;height:420px;background:#0b0f1a;border-radius:12px;overflow:hidden}
+    .viewer img{max-width:100%;max-height:100%;image-rendering:auto}
+    .controls{display:grid;gap:8px}
+    input[type=range]{width:100%}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;border:1px solid #cbd5e1;padding:2px 6px;border-radius:6px;background:#f8fafc}
+    .cta{display:flex;gap:10px;margin-top:12px}
+    .button{appearance:none;border:0;background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .ghost{background:#e2e8f0;color:#0f172a}
+    .muted{color:var(--muted)}
+    .progress{height:6px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+    .bar{height:100%;background:var(--accent);width:0%}
+    @media(max-width:980px){ .layout{grid-template-columns:1fr} .viewer{height:360px} }
+    .confirm-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="steps"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="title">
+        <h1 style="margin:6px 0 10px">Main Task</h1>
+        <small id="pageTag" class="muted">Trial <span id="trialIdx">1</span>/<span id="trialTotal">—</span></small>
+      </div>
+      <div class="progress" aria-label="overall progress"><div class="bar" id="overallBar"></div></div>
+
+      <div class="layout" style="margin-top:16px">
+        <!-- Left: Reference -->
+        <aside class="panel">
+          <h3 style="margin-top:6px">Reference</h3>
+          <div class="viewer" id="refViewer">
+            <!-- Put a fixed reference image here; update per trial from Flask if you like -->
+            <img id="refImg" alt="reference face" src="{{ url_for('static', filename='images/ref_face.png') }}" onerror="this.style.opacity=.2;this.alt='reference placeholder'">
+          </div>
+          <p class="muted" style="margin:8px 0 0">Left: fixed reference face.</p>
+        </aside>
+
+        <!-- Center: Stimulus -->
+        <main class="panel">
+          <h3>Stimulus</h3>
+          <div class="viewer">
+            <img id="stimImg" alt="stimulus frame" />
+          </div>
+
+          <!-- Confirm button centered below image -->
+          <div class="confirm-wrap">
+            <button class="btn primary" id="confirmBtn"> Confirm </button>
+          </div>
+
+          <div class="controls">
+            <div class="row">
+              <strong>Adjust expression</strong>
+              <small class="muted">(use <span class="kbd">←</span>/<span class="kbd">→</span> or drag)</small>
+            </div>
+            <input id="frameSlider" type="range" min="0" max="0" step="1" value="0" />
+            <div class="row muted">
+              <div>Frame: <output id="frameOut">0</output>/<span id="frameMax">0</span></div>
+              <div>Estimated level: <output id="levelOut">0.0</output></div>
+            </div>
+          </div>
+        </main>
+
+
+        <!-- Right: Sidebar -->
+        <aside class="panel">
+          <h3 style="margin-top:6px">Notes</h3>
+          <textarea id="note" rows="8" placeholder="Optional: brief comment…" style="width:100%;border-radius:8px;border:1px solid #e5e7eb;padding:8px"></textarea>
+          <div class="box" style="margin-top:10px">
+            <div class="muted">Selections this trial</div>
+            <div>Left: <span id="leftSel" class="muted">—</span></div>
+            <div>Right: <span id="rightSel" class="muted">—</span></div>
+          </div>
+          <div class="cta" style="margin-top:12px">
+            <button class="button ghost" id="skipBtn">Skip</button>
+            <button class="button" id="nextBtn">Next Trial</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- If you already have static/js/slider.js, include it; otherwise the inline script below handles basics -->
+  <script src="{{ url_for('static', filename='js/slider.js') }}" defer></script>
+  <script>
+    // Config (you can also inject via Jinja):
+    const TOTAL_TRIALS = {{ total_trials|default(10, true) }};
+    const FRAMES = 100; // 0..99
+    const IMAGE_PATH = "{{ url_for('static', filename='images/sequence') }}/"; // expects 000.png, 001.png, ...
+
+    // State
+    let trial = 0, left = null, right = null;
+    const slider = document.getElementById('frameSlider');
+    const frameOut = document.getElementById('frameOut');
+    const levelOut = document.getElementById('levelOut');
+    const stimImg = document.getElementById('stimImg');
+    const leftSel = document.getElementById('leftSel');
+    const rightSel = document.getElementById('rightSel');
+    const overallBar = document.getElementById('overallBar');
+    const trialIdx = document.getElementById('trialIdx');
+    const trialTotal = document.getElementById('trialTotal');
+    trialTotal.textContent = TOTAL_TRIALS;
+
+    function setFrame(i){
+      i = Math.max(0, Math.min(FRAMES-1, i|0));
+      slider.value = i;
+      frameOut.value = i;
+      levelOut.value = (Math.round((i/(FRAMES-1))*10)/10).toFixed(1); // round to 0.1
+      stimImg.src = IMAGE_PATH + String(i).padStart(3,'0') + ".png";
+    }
+
+    function updateProgress(){
+      overallBar.style.width = ((trial)/TOTAL_TRIALS*100)+'%';
+      trialIdx.textContent = Math.min(trial+1, TOTAL_TRIALS);
+    }
+
+    function resetTrial(){
+      left = right = null;
+      leftSel.textContent = rightSel.textContent = '—';
+      setFrame(0);
+      updateProgress();
+    }
+
+    function saveTrial(status="ok"){
+      const rec = {
+        trial: trial+1,
+        frame_left: left,
+        frame_right: right,
+        level_left: left===null?null: +(Math.round((left/(FRAMES-1))*10)/10).toFixed(1),
+        level_right: right===null?null: +(Math.round((right/(FRAMES-1))*10)/10).toFixed(1),
+        note: document.getElementById('note').value || "",
+        status,
+        ts: Date.now()
+      };
+      // Accumulate in localStorage (your backend can also POST this)
+      const key = 'paq_task_records';
+      const cur = JSON.parse(localStorage.getItem(key) || '[]');
+      cur.push(rec); localStorage.setItem(key, JSON.stringify(cur));
+
+      // Optional: send to Flask
+      fetch("{{ url_for('api_submit') }}", {
+        method:"POST", headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(rec)
+      }).catch(()=>{ /* offline OK */});
+    }
+
+    // Wiring
+    slider.addEventListener('input', e => setFrame(+e.target.value));
+    document.getElementById('markLeft').addEventListener('click', ()=>{ left = +slider.value; leftSel.textContent = left; });
+    document.getElementById('markRight').addEventListener('click', ()=>{ right = +slider.value; rightSel.textContent = right; });
+    document.getElementById('confirmBtn').addEventListener('click', ()=>{
+      saveTrial("confirmed");
+      if(trial < TOTAL_TRIALS-1){ trial++; resetTrial(); } else { window.location.href="{{ url_for('index') }}"; }
+    });
+    document.getElementById('nextBtn').addEventListener('click', ()=>{
+      saveTrial("next");
+      if(trial < TOTAL_TRIALS-1){ trial++; resetTrial(); } else { window.location.href="{{ url_for('index') }}"; }
+    });
+    document.getElementById('skipBtn').addEventListener('click', ()=>{
+      saveTrial("skipped");
+      if(trial < TOTAL_TRIALS-1){ trial++; resetTrial(); } else { window.location.href="{{ url_for('index') }}"; }
+    });
+
+    // Keyboard shortcuts
+    addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowLeft') setFrame(+slider.value-1);
+      if(e.key==='ArrowRight') setFrame(+slider.value+1);
+      if(e.key.toLowerCase()==='l') document.getElementById('markLeft').click();
+      if(e.key.toLowerCase()==='r') document.getElementById('markRight').click();
+      if(e.key==='Enter') document.getElementById('confirmBtn').click();
+    });
+
+    // Boot
+    resetTrial();
+  </script>
+</body>
+</html>

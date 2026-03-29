@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Facial Morphism Task — Matching</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    :root{
+      --ink:#0f172a; --muted:#64748b; --bg:#f8fafc; --card:#ffffff; --accent:#2563eb;
+      --ring:#e5e7eb; --shadow:0 8px 30px rgba(2,6,23,.06);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .wrap{max-width:980px;margin:32px auto;padding:0 16px}
+    h1{margin:0 0 8px;font-size:34px;letter-spacing:.2px}
+    .lead{color:var(--muted);margin:0 0 18px}
+    .card{background:var(--card);border:1px solid var(--ring);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+    .section{background:#fff;border:1px solid var(--ring);border-radius:14px;padding:16px;margin-top:14px}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:700;font-size:12px}
+    ul{margin:8px 0 0 18px}
+    .kbd{display:inline-block;min-width:28px;text-align:center;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;font-weight:700;padding:2px 6px}
+    .cta{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .button{appearance:none;border:0;background:var(--accent);color:#fff;padding:12px 18px;border-radius:12px;font-weight:800;text-decoration:none;cursor:pointer}
+    .ghost{background:#e2e8f0;color:#0f172a}
+    .meta{color:var(--muted);font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Expression Matching Task</h1>
+
+    <div class="card">
+      <span class="badge">What you will do</span>
+      <div class="section">
+        <p>
+          You will see a <strong>reference face</strong> on the left and a <strong>test face</strong> on the right.
+          Move the slider to gradually change the test face from <em>neutral</em> to <em>fully expressive</em>.
+          Stop at the point where the test face <strong>first</strong> matches the expression of the reference face.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px">Controls</h3>
+        <ul>
+          <li>Use the slider to adjust the test face smoothly.</li>
+          <li>Use <span class="kbd">←</span> / <span class="kbd">→</span> for precise steps; hold <span class="kbd">Shift</span> for bigger steps.</li>
+          <li>Press <span class="kbd">Enter</span> (or click the button) to confirm your choice.</li>
+        </ul>
+        <p class="meta" style="margin-top:8px">Tip: Choose the <em>leftmost</em> point that looks matched and avoid overshooting.</p>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px">Timing</h3>
+        <p>This matching task is <strong>not timed</strong>. Take a steady look and pick the earliest match you perceive.</p>
+      </div>
+
+      <div class="cta">
+        {# pick the first unfinished item; we always start with the ORIGINAL (fu=0) #}
+        {% set ns = namespace(next=None) %}
+        {% for q in ordered_questions %}
+          {% if not q.done and ns.next is none %}
+            {% set ns.next = q %}
+          {% endif %}
+        {% endfor %}
+
+        {% if ns.next %}
+          <a class="button"
+             href="{{ url_for('paq_slider_page',
+                              folder=ns.next.folder,
+                              ref_idx=ns.next.ref_idx,
+                              fu=0,
+                              session=session_id) }}">
+            Continue
+          </a>
+        {% else %}
+          {# If everything is finished, go straight to pairwise intro (or your next stage) #}
+          <a class="button" href="{{ url_for('paq_index', session=session_id) }}">Continue</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

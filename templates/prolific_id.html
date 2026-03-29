@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participant ID</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #ffffff;
+            padding: 32px 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            max-width: 420px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        p {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.5;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 16px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 24px;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #2d7ff9;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1c66d6;
+        }
+        .note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Participant Identification</h1>
+
+    <p>
+        Before starting the study, please enter your <strong>Prolific ID</strong>.
+        This ID is used only to link your responses and ensure proper compensation.
+    </p>
+
+    <form method="POST" action="/submit_prolific_id">
+        <label for="prolific_id">Prolific ID</label>
+        <input
+            id="prolific_id"
+            name="prolific_id"
+            type="text"
+            placeholder="e.g. 5f8c1a9e..."
+            required
+        >
+
+        <button type="submit">Continue</button>
+    </form>
+
+</div>
+
+</body>
+</html>

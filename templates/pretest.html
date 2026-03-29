@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Facial Morphism Task — Pretest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    :root{--ink:#0f172a;--muted:#64748b;--bg:#f8fafc;--card:#fff;--accent:#2563eb;--ok:#16a34a}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .wrap{max-width:900px;margin:40px auto;padding:0 20px}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 8px 30px rgba(2,6,23,.08);padding:24px;border:1px solid #e5e7eb}
+    h1{margin:0 0 6px}
+    .subtitle{color:var(--muted);margin:0 0 18px}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    .panel{border:1px solid #e5e7eb;border-radius:14px;padding:16px;background:#fff}
+    .kbd{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;font-weight:700}
+    .checklist{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px}
+    .item{display:flex;justify-content:space-between;align-items:center;border:1px dashed #e5e7eb;border-radius:10px;padding:10px 12px;background:#fbfdff}
+    .item.done{border-color:#dcfce7;background:#f0fdf4}
+    .status{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#ef4444}
+    .status.ok{color:var(--ok)}
+    .dot{width:10px;height:10px;border-radius:999px;background:#ef4444}
+    .ok .dot{background:var(--ok)}
+    .hint{color:var(--muted);font-size:14px;margin-top:8px}
+    .cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+    .btn.primary{background:var(--accent);color:#fff;opacity:.6;pointer-events:none}
+    .btn.primary.enabled{opacity:1;pointer-events:auto}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#475569}
+    .arena{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
+    .panel.fix{display:grid;place-items:center;color:#94a3b8;font-size:42px;letter-spacing:2px;height:160px;border-style:dashed}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Instructions</h1>
+      <div class="grid">
+        <!-- Intro / What the task is -->
+        <div class="panel">
+          <h3>What is this task?</h3>
+          <p>
+            You will judge subtle changes in facial expressions. In the <strong>pairwise comparison</strong> task,
+            two faces briefly appear side by side, and you decide whether their expressions look the
+            <em>same</em> or <em>different</em> as quickly as possible. In the <strong>expression matching</strong> task,
+            you will use a slider to adjust the test face from <em>neutral</em> to <em>fully expressive</em>,
+            stopping at the point where it <strong>first</strong> matches the reference face. This task is untimed.
+          </p>
+          <p class="hint">Use a laptop/desktop at 100% zoom. Sit ~50–70cm from the screen. Avoid glare.</p>
+        </div>
+
+        <!-- Step 1 — Keyboard check -->
+        <div class="panel">
+          <h3>Demo 1 — Keyboard check</h3>
+          <p>Press the following keys so we can confirm everything works:</p>
+          <div class="checklist" role="list">
+            <div class="item" id="chk-left" role="listitem" aria-live="polite">
+              <div>Press <span class="kbd">←</span> (Left Arrow)</div>
+              <div class="status" id="st-left"><span class="dot"></span>Not yet</div>
+            </div>
+            <div class="item" id="chk-right" role="listitem" aria-live="polite">
+              <div>Press <span class="kbd">→</span> (Right Arrow)</div>
+              <div class="status" id="st-right"><span class="dot"></span>Not yet</div>
+            </div>
+            <div class="item" id="chk-enter" role="listitem" aria-live="polite">
+              <div>Press <span class="kbd">Enter</span></div>
+              <div class="status" id="st-enter"><span class="dot"></span>Not yet</div>
+            </div>
+          </div>
+          <p class="hint">Tip: You’ll use ← / → to step frames, and Enter to confirm in some tasks.</p>
+        </div>
+
+        <!-- Step 2 — Pairwise demo -->
+        <div class="panel" id="pairwise-demo">
+          <h3>Demo 2 — Pairwise comparison task</h3>
+          <p>
+            You will see a brief fixation “+”, then two faces. Decide if the <strong>expressions</strong>
+            look the <em>same</em> or <em>different</em>. Respond with the buttons below or keys:
+            <span class="kbd">Y</span> = Same, <span class="kbd">N</span> = Different.
+          </p>
+
+          <!-- Fixation -->
+          <div id="pw-fix" class="panel fix">+</div>
+
+          <!-- Two faces (example images; swap to what you have available) -->
+          <div id="pw-arena" class="arena" style="display:none">
+            <div style="background:#f1f5f9;border:1px solid #e5e7eb;border-radius:12px;height:200px;overflow:hidden">
+              <img id="pw-left" alt="Left face"
+                   src="{{ url_for('static', filename='images/im_sad/026.png') }}"
+                   style="max-width:100%;max-height:100%;margin:auto;display:block;object-fit:contain"
+                   onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'Missing 026.png',style:'color:#64748b;display:grid;place-items:center;height:100%'}));">
+            </div>
+            <div style="background:#f1f5f9;border:1px solid #e5e7eb;border-radius:12px;height:200px;overflow:hidden">
+              <img id="pw-right" alt="Right face"
+                   src="{{ url_for('static', filename='images/im_sad/050.png') }}"
+                   style="max-width:100%;max-height:100%;margin:auto;display:block;object-fit:contain"
+                   onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'Missing 050.png',style:'color:#64748b;display:grid;place-items:center;height:100%'}));">
+            </div>
+          </div>
+
+          <div class="cta">
+            <button id="pw-start" class="btn">Run example</button>
+            <button id="pw-same" class="btn" disabled>Same (Y)</button>
+            <button id="pw-diff" class="btn" disabled>Different (N)</button>
+            <span id="pw-status" style="margin-left:8px;color:#16a34a;display:none">Pairwise demo recorded</span>
+          </div>
+          <p class="hint">This is just a demo — there’s no right answer. We’re checking everything displays and your inputs register.</p>
+        </div>
+
+        <!-- Step 3 — PAQ slider pre-test -->
+        <div class="panel" id="paq-pretest">
+          <h3>Demo 3 — Expression matching task</h3>
+          <p>
+            The test face will gradually change its expression as you move a slider from left to right.
+            Stop where you <strong>first</strong> perceive the test face as matching the reference.
+          </p>
+          <p>Drag the slider to see the face gradually change from neutral to 100% sad, then click <em>Looks matched</em>.</p>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center">
+            <!-- LEFT: reference face (fixed) -->
+            <div style="background:#f1f5f9;border:1px solid #e5e7eb;border-radius:12px;height:240px;position:relative;overflow:hidden">
+              <img
+                src="{{ ref_img or url_for('static', filename='images/im_sad/030.png') }}"
+                alt="Reference face"
+                style="position:absolute;inset:0;max-width:100%;max-height:100%;margin:auto;object-fit:contain;border-radius:12px"
+                onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'Reference image missing',style:'color:#64748b;display:grid;place-items:center;height:100%'}));"
+              >
+            </div>
+
+            <!-- RIGHT: stimulus face (frame slider over images/im_sad) -->
+            <div id="stimulusBox"
+                 data-base="{{ url_for('static', filename='images/im_sad') }}"
+                 data-digits="3" data-ext="png" data-count="100"
+                 style="background:#f1f5f9;border:1px solid #e5e7eb;border-radius:12px;height:240px;position:relative;overflow:hidden">
+              <img id="stimulusFrame" alt="Stimulus frame"
+                   style="position:absolute;inset:0;max-width:100%;max-height:100%;margin:auto;object-fit:contain;border-radius:12px;display:block">
+            </div>
+          </div>
+
+          <!-- slider + readout -->
+          <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <input id="frameSlider" type="range" min="1" value="1" style="width:min(520px,100%);" aria-label="Stimulus frame">
+            <button id="frameReset" type="button"
+                    style="background:#fff;color:#111;border:1px solid #e5e7eb;border-radius:10px;height:36px;padding:0 12px">
+              Reset
+            </button>
+          </div>
+
+          <!-- complete action -->
+          <div class="cta" style="display:flex;gap:10px;align-items:center">
+            <button id="paqConfirm" type="button" class="btn primary" disabled>Looks matched</button>
+            <span id="paqStatus" style="color:#16a34a;display:none">Pre-test recorded</span>
+          </div>
+        </div>
+        <p>
+          <strong style="color:#ef4444;">Note: The pairwise comparison task is timed. After completing four comparison questions that all feature the same face identity but different expressions, you will be asked to briefly rate whether those four tasks felt equally difficult or not.</strong>
+        </p>
+        <!-- Start Task button (enabled after all 3 sessions done) -->
+        <div class="cta">
+          <a id="btnToPairwise" class="btn primary" href="{{ url_for('pairwise_intro') }}">Start Task</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ----- Keyboard check (Session 1) -----
+  const chkLeft  = document.getElementById('chk-left');
+  const chkRight = document.getElementById('chk-right');
+  const chkEnter = document.getElementById('chk-enter');
+  const stLeft  = document.getElementById('st-left');
+  const stRight = document.getElementById('st-right');
+  const stEnter = document.getElementById('st-enter');
+
+  const kb = { left:false, right:false, enter:false };
+  function markOK(itemEl, stEl){
+    itemEl.classList.add('done');
+    stEl.classList.add('ok');
+    stEl.innerHTML='<span class="dot"></span>OK';
+    updateStartButton();
+  }
+  window.addEventListener('keydown', e=>{
+    if(e.key==='ArrowLeft' && !kb.left){ kb.left=true; markOK(chkLeft, stLeft); }
+    if(e.key==='ArrowRight'&& !kb.right){ kb.right=true; markOK(chkRight, stRight); }
+    if((e.key==='Enter'||e.key==='Return') && !kb.enter){ kb.enter=true; markOK(chkEnter, stEnter); }
+  });
+
+  // ----- Pairwise demo (Session 2) -----
+  const pwFix = document.getElementById('pw-fix');
+  const pwArena = document.getElementById('pw-arena');
+  const pwStart = document.getElementById('pw-start');
+  const pwSame = document.getElementById('pw-same');
+  const pwDiff = document.getElementById('pw-diff');
+  const pwStatus = document.getElementById('pw-status');
+
+  let pwShown = false, pwAnswered = false, pwTimer = null;
+
+  function pwEnableAnswer(){
+    pwSame.removeAttribute('disabled');
+    pwDiff.removeAttribute('disabled');
+  }
+  function pwDisableAnswer(){
+    pwSame.setAttribute('disabled','true');
+    pwDiff.setAttribute('disabled','true');
+  }
+  function pwRecord(){
+    if (pwAnswered) return;
+    pwAnswered = true;
+    pwStatus.style.display = 'inline';
+    updateStartButton();
+  }
+  pwStart.addEventListener('click', ()=>{
+    pwAnswered = false;
+    pwStatus.style.display='none';
+    pwDisableAnswer();
+    pwFix.style.display='grid';
+    pwArena.style.display='none';
+    if (pwTimer) clearTimeout(pwTimer);
+    pwTimer = setTimeout(()=>{
+      pwFix.style.display='none';
+      pwArena.style.display='';
+      pwEnableAnswer();
+      pwShown = true;
+    }, 600); // short fixation
+  });
+  pwSame.addEventListener('click', pwRecord);
+  pwDiff.addEventListener('click', pwRecord);
+  document.addEventListener('keydown', e=>{
+    if (!pwShown || pwAnswered) return;
+    if (e.key==='y' || e.key==='Y'){ e.preventDefault(); pwRecord(); }
+    if (e.key==='n' || e.key==='N'){ e.preventDefault(); pwRecord(); }
+  });
+
+  // ----- PAQ slider pre-test (Session 3) -----
+  const box     = document.getElementById('stimulusBox');
+  const img     = document.getElementById('stimulusFrame');
+  const slider  = document.getElementById('frameSlider');
+  const reset   = document.getElementById('frameReset');
+  const confirmBtn = document.getElementById('paqConfirm');
+  const paqStatus  = document.getElementById('paqStatus');
+
+  let paqDone = false;
+
+  const BASE  = box.dataset.base;
+  const DIGS  = parseInt(box.dataset.digits || '3', 10);
+  const EXT   = box.dataset.ext || 'png';
+  const COUNT = parseInt(box.dataset.count || '100', 10);
+
+  const pad  = (n,k)=>String(n).padStart(k,'0');
+  const path = (i)=> `${BASE}/${pad(i,DIGS)}.${EXT}`;
+  function setFrame(i){
+    const idx = Math.max(1, Math.min(COUNT, Number(i)||1));
+    img.src = path(idx);
+    // prefetch neighbors
+    [idx-1, idx+1].forEach(j=>{
+      if (j>=1 && j<=COUNT){ const im=new Image(); im.src=path(j); }
+    });
+  }
+  setFrame(1);
+
+  function enablePaqConfirmOnce(){
+    confirmBtn.disabled = false;
+    confirmBtn.classList.add('enabled');
+    slider.removeEventListener('input', enablePaqConfirmOnce);
+  }
+  slider.addEventListener('input', e=>{ setFrame(e.target.value); enablePaqConfirmOnce(); });
+  slider.addEventListener('keydown', e=>{
+    const step = e.shiftKey ? 5 : 1;
+    if (e.key==='ArrowLeft'){
+      slider.value = String(Math.max(1, Number(slider.value) - step));
+      setFrame(slider.value);
+    }
+    if (e.key==='ArrowRight'){
+      slider.value = String(Math.min(COUNT, Number(slider.value) + step));
+      setFrame(slider.value);
+    }
+  });
+  reset.addEventListener('click', ()=>{ slider.value='1'; setFrame(1); });
+
+  confirmBtn.addEventListener('click', ()=>{
+    confirmBtn.disabled = true;
+    confirmBtn.classList.remove('enabled');
+    paqStatus.style.display = 'inline';
+    paqDone = true;
+    updateStartButton();
+  });
+
+  // ----- Global enable: all sessions must be complete -----
+  const startBtn = document.getElementById('btnToPairwise');
+  function setEnabled(el, enabled){
+    if(!el) return;
+    if(enabled){
+      el.classList.add('enabled');
+      el.removeAttribute('aria-disabled');
+      el.setAttribute('tabindex','0');
+      el.style.pointerEvents='auto';
+    } else {
+      el.classList.remove('enabled');
+      el.setAttribute('aria-disabled','true');
+      el.setAttribute('tabindex','-1');
+      el.style.pointerEvents='none';
+    }
+  }
+  function updateStartButton(){
+    const step1 = kb.left && kb.right && kb.enter;
+    const step2 = pwAnswered; // pairwise demo answered
+    const step3 = paqDone;    // PAQ demo completed
+    setEnabled(startBtn, step1 && step2 && step3);
+  }
+  // initialize disabled
+  setEnabled(startBtn, false);
+});
+</script>
+</body>
+</html>

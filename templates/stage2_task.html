@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>
+    Stage 2 — Trial {{ (trial_idx|default(0, true)) + 1 }} / {{ total|default(1, true) }}
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    :root{ --bg:#f8fafc; --ink:#0f172a; --muted:#64748b; --card:#fff; --accent:#2563eb; --ring:#e5e7eb; --shadow:0 8px 30px rgba(2,6,23,.06); }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .wrap{max-width:980px;margin:32px auto;padding:0 16px}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .meta{color:var(--muted);font-size:14px}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-size:12px}
+    .card{background:#fff;border:1px solid var(--ring);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .arena{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;min-height:320px}
+    .panel{border:1px dashed #e5e7eb;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;min-height:300px}
+    .panel img{max-width:100%;height:auto;display:block}
+    .fix{font-size:42px;letter-spacing:2px;color:#94a3b8;user-select:none}
+    .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:10px;padding:10px 12px;border:1px solid #dbeafe;background:#eff6ff;color:var(--accent);transition:all .15s;cursor:pointer}
+    .btn:hover{background:#2563eb;color:#fff}
+    .btn[disabled]{opacity:.6;cursor:not-allowed}
+    .spacer{flex:1}
+    .footer{
+      position:fixed; left:0; right:0; bottom:0;
+      background:#fff; border-top:1px solid #e5e7eb; box-shadow:0 -6px 20px rgba(2,6,23,.06);
+      padding:12px 16px; display:flex; gap:12px; align-items:center; z-index:50;
+    }
+    .footer .inner{max-width:980px; margin:0 auto; width:100%; display:flex; gap:12px; align-items:center}
+    .footer .right{margin-left:auto}
+    .toast{position:fixed;right:16px;bottom:80px;background:#ecfdf5;border:1px solid #86efac;color:#065f46;padding:10px 12px;border-radius:10px;box-shadow:var(--shadow);display:none}
+    .toast.show{display:block}
+    .bad{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="bar">
+        <a class="btn" href="{{ back_url|default(url_for('paq_index'), true) }}">Overview</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <!-- Fixation -->
+      <div id="fix" class="panel fix">+</div>
+
+      <!-- Faces -->
+      <div id="arena" class="arena" style="display:none">
+        <div class="panel">
+          <img id="leftImg" alt="Left face"
+               src="{{ left_url|default(url_for('static', filename='images/stage2_left.png'), true) }}">
+        </div>
+        <div class="panel">
+          <img id="rightImg" alt="Right face"
+               src="{{ right_url|default(url_for('static', filename='images/stage2_right.png'), true) }}">
+        </div>
+      </div>
+
+      <div class="bar">
+        <button id="btnSame" class="btn">Same (Y)</button>
+        <button id="btnDiff" class="btn">Different (N)</button>
+        <div class="spacer"></div>
+        <div class="meta">Respond quickly. RT is recorded.</div>
+      </div>
+    </div>
+  </div>
+
+  {% if is_last|default(false, true) %}
+  <div class="footer" role="contentinfo" aria-live="polite">
+    <div class="inner">
+      <div class="meta">You’ve reached the final trial.</div>
+      <div class="right">
+        <button id="continueFooter" class="btn" disabled>Continue</button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div id="toast" class="toast">Saved ✓ — you can continue</div>
+
+  <script>
+    // ---------- Inputs from Flask (all default-safe) ----------
+    const sessionId  = {{ (session_id|default('anon', true))|tojson }};
+    const trialIdx   = {{ (trial_idx|default(0, true))|tojson }};
+    const total      = {{ (total|default(1, true))|tojson }};
+    const condition  = {{ (folder|default('N/A', true))|tojson }};
+    const flag       = {{ (flag|default('INFO', true))|tojson }};
+    const jnd        = {{ (jnd|default('N/A', true))|tojson }};
+
+    let leftName   = {{ (left_name|default('', true))|tojson }};
+    let rightName  = {{ (right_name|default('', true))|tojson }};
+    let leftIndex  = {{ (left_index if left_index is defined else none)|tojson }};
+    let rightIndex = {{ (right_index if right_index is defined else none)|tojson }};
+
+    const submitURL = {{ (api_submit_url|default(url_for('pairwise_submit'), true))|tojson }};
+    const endURL    = {{ (end_url|default(url_for('paq_index'), true))|tojson }};
+
+    const FIX_MS = 500, MAX_STIM_MS = 1500;
+    const fix = document.getElementById('fix'), arena = document.getElementById('arena');
+    const btnY = document.getElementById('btnSame'), btnN = document.getElementById('btnDiff');
+    const toast = document.getElementById('toast');
+    const continueFooter = document.getElementById('continueFooter');
+
+    let t0=null, answered=false, hideTimer=null;
+
+    (function maybeFlipSides(){
+      const flip = Math.random() < 0.5;
+      if (!flip) return;
+      const li = document.getElementById('leftImg');
+      const ri = document.getElementById('rightImg');
+      const tmpSrc = li.src; li.src = ri.src; ri.src = tmpSrc;
+
+      const _n = leftName; leftName = rightName; rightName = _n;
+      const _i = leftIndex; leftIndex = rightIndex; rightIndex = _i;
+    })();
+
+    function showStim(){
+      fix.style.display='none'; arena.style.display=''; t0=performance.now();
+      hideTimer=setTimeout(()=>{ arena.style.opacity=0.25; }, MAX_STIM_MS);
+    }
+    setTimeout(showStim, FIX_MS);
+
+    async function finish(choice, key){
+      if (answered) return; answered=true; if (hideTimer) clearTimeout(hideTimer);
+      const rt_ms = Math.round(performance.now() - t0);
+      const body = {
+        sessionId, trial_idx: trialIdx, folder: condition, flag, jnd,
+        choice, key, rt_ms, left_name: leftName, left_index: leftIndex,
+        right_name: rightName, right_index: rightIndex
+      };
+      try{
+        const res = await fetch(submitURL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+        const data = res.ok ? await res.json() : {};
+        const target = (data && data.next_url) ? data.next_url : endURL;
+        window.location.assign(target);
+      }catch(_){
+        window.location.assign(endURL);
+      }
+    }
+
+    btnY.addEventListener('click', ()=>finish('same','BTN'));
+    btnN.addEventListener('click', ()=>finish('different','BTN'));
+    document.addEventListener('keydown', e=>{
+      if (answered || !t0) return;
+      if (e.key==='y'||e.key==='Y'){ e.preventDefault(); finish('same','Y'); }
+      else if (e.key==='n'||e.key==='N'){ e.preventDefault(); finish('different','N'); }
+    });
+
+    if (continueFooter){
+      continueFooter.addEventListener('click', ()=>{
+        if (continueFooter.disabled) return;
+        window.location.assign(endURL);
+      });
+    }
+  </script>
+</body>
+</html>
